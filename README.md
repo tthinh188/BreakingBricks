@@ -42,6 +42,9 @@ The last lab of the semester will not be a work lab, but instead a time to prese
   * This week will consist of the end-of-semester "Super" quiz.
   * You will present your projects in 5 minute time slots.
 
+>__NOTE: EVEN THOUGH THE ENTIRETY OF THE PROJECT WILL BE GIVEN IN WEEK 10, WE STRONGLY DISCOURAGE TEAMS FROM GOING AHEAD.
+IF YOU AND YOUR PARTNER CHOOSE TO WORK AHEAD, PLEASE WORK TOGETHER, ANY CODE WHICH WAS NOT WORKED ON JOINTLY WILL NOT RECEIVE PARTICIPATION CREDIT.__
+
 ### Grading Overview
 * 100 points | Week 10 Milestones (graded on Week 11)
 * 100 points | Week 11 Milestones (graded on Week 12)
@@ -54,9 +57,16 @@ All weeks will count the same as a normal lab (100 points).
 The final presentation will also count as a normal lab grade.
 The final project submission will be due during finals week and will give you an opportunity to reclaim points if you've missed some milestones.
 
-
 # Lab 10 - Inheritance
-   
+This lab will be based on utilizing inheritance to help facilitate creating game objects.
+
+Why should we use inheritance?
+If you remember from lecture, child objects inherit attributes and functions from their parents.
+In the case of PyGame and game development, a lot of work is required to setup a valid game object.
+Fortunately, PyGame comes equipped with the `Sprite` class in the `sprite` module (`pygame.sprite.Sprite`).
+This sprite object allows us to work 
+
+
 ## Submission
 
 ## Rubric

@@ -1,108 +1,121 @@
-# Introduction to Realtime Programming
+# Breakout
 
 ## Purpose
-Lab 9 is designed to give you some exposure to:
-1. Realtime programming and design,
-2. Reading and understanding foreign APIs, and
-3. Reading and understanding the code of others.
+Labs 10-14 will constitute the remainder of the semester and will involve the development of the classic Atari game Breakout.
+Lab 9 was an introduction to working in real-time environments.
+Now that you have had time to play with and experiments with developed code, it is time to start writing it yourself.
 
-Lab 9 is to be completed individually since a large portion of it is a reading activity.
-Lab 9 is also __due at the end of lab__.
+That being said, these labs serve 3 main purposes:
+* Giving you exposure to larger codebases (similar to the first incremental project).
+* Working with and achieving __milestones__ (you may already be familiar with this if you've taken ENGR 121).
+* Working as part of a team to achieve success in coding.
+ 
+> __PAIRED PROGRAMMING:__ We will be implementing paired programming in a similar fashion as the previous half of the semester.
+Working as part of a group always presents a new set of challenges due to the differences and opinions of others.
+I encourage everyone to treat this project as an opportunity to improve collaborating with others (even if you are already an excellent programmer).
+Always keep in mind that companies are looking for individuals who can work well with a team, this is true across every discipline.
 
-## Realtime Programming
-Up until now, we have created programs which have a defined starting point and ending point.
-Interactive programs (e.g. desktop programs, smartphone apps, interactive websites, etc.) do not follow this model.
-Instead, these applications run for as long as they are needed, and respond to dynamic inputs from a user.
+>__TAKE AWAY:__ At the end of the semester, you should have something that you would be proud to show off to your friends and family.
+You may also be able to add this project as part of your resume when you're looking for internships.
 
-Any Graphical User Interface (GUI) requires some form of realtime design.
-This is because at any time you could select and modify the program's fields.
-A good example of this is a game: at any time you have the ability to add an input into the system, and your inputs determine what the results of the game are.
+## Schedule
+In order to better help you succeed at this project, we have divided it into 5 parts.
+Each part will consist of a 1-Week lab, and will have milestones that you will be required to meet.
+The last lab of the semester will not be a work lab, but instead a time to present what you've achieved.
 
-The following diagram illustrates the basic idea.
+> __NOTE:__ This schedule and milestones of _future labs_ are subject to changes depending on the status of most groups.
 
-![Realtime Desaign](/docs/img/realtime_design_flowchart.png)
+* __Lab 10 - Inheritance__
+  * This lab will focus on implementing game objects as the children of PyGame Sprites.
+  * This lab will have you create all objects and multiple, different bricks.
+* __Lab 11 - Real-time programming II__
+  * This lab will focus on working in the update loop.
+  * Unlike lab 9, there will be a larger emphasis on debugging movement code and fixing issues related to real-time systems.
+  * In this lab you should also begin to track items such as lives and levels.
+* __Lab 12 - Binary File I/O__
+  * This lab will focus on using File I/O to store gamedata and allow a game to be saved.
+* __Lab 13 - Integration__
+  * This lab is designed to give you a week to add your own touches to the game.
+  * Ideas will be given, but feel free to add whatever you want to the game.
+  * This lab will offer you an opportunity to catch up if you have fallen behind.
+* __Lab 14 - Presentations__
+  * This week will consist of the end-of-semester "Super" quiz.
+  * You will present your projects in 5 minute time slots.
 
-## Tom's Pong
+### Grading Overview
+* 100 points | Week 10 Milestones (graded on Week 11)
+* 100 points | Week 11 Milestones (graded on Week 12)
+* 100 points | Week 12 Milestones (graded on Week 13)
+* 100 points | Week 13 Milestones (graded on Week 14)
+* 100 points | Week 14 Presentation
+* 300 points | Final Project Submission (due during finals week [date TBD])
 
-1. For lab 9, we will be working with a 2-Player version of Pong called Tom's Pong.
-   Before you code anything, use `pip` to install the `pygame` module to your environment.
-   This will be the same process as installing NumPy and matplotlib.
-   If you need a refresher or guide, you can use the following __[setup guide](docs/numpy_matplotlib_installation.md)__.
-   > Replace the matplotlib and NumPy modules with PyGame.
+All weeks will count the same as a normal lab (100 points).
+The final presentation will also count as a normal lab grade.
+The final project submission will be due during finals week and will give you an opportunity to reclaim points if you've missed some milestones.
 
-2. Before you start trying to code, read and work through the __[PyGame Development Tutorial](https://www.pygame.org/docs/tut/MakeGames.html)__ to understand what each part of the Tom's Pong code is doing.
-   You only need to go through Sections 1-6.
-   > I will manually check everyone off, and I WILL ask questions about the tutorial.
-   Part of your grade depends on going through this tutorial.
-   You should skim the majority of this tutorial, but make sure that you understand what each new section is adding to the game, and why this code is needed.
 
-3. Once you have completed the PyGame tutorial, you should have a basic understanding of the components of Tom's Pong (in terms of the realtime programming diagram above).
-   Now we will attempt to run Tom's Pong.
-   The base Tom's Pong game has been provided in the `src/toms_pong.py` module.
-   > __NOTE:__ This base game is publicly available in the provided tutorial, however, the code on their website contains pieces of code that are not friendly with Python 3.
-   Due to this we have modified the source to make it compatible with the Python versions on the lab machines and your personal machines.
-   This code should run out of the box, if you are having trouble getting the code to run, spend at least 5 minutes trying to debug on your own.
-   If you still cannot get the code to launch, ask your instructor for help.
+# Lab 10 - Inheritance
    
-   > __NOTE:__ The tutorial uses the term bat to refer to the object which deflects the ball, this lab will refer to this object as a "paddle" due to the context of Brickout.
-   These objects are the same, just be aware of the naming difference.
+## Submission
 
-4. Now that we have the game running we can get to the fun part, modifying the game for our purposes.
-   Labs 10-13 will involve re-creating the classic Atari game [Breakout](https://en.wikipedia.org/wiki/Breakout_(video_game)).
-   Yes, the same breakout that was developed with Steve Wozniak and Steve Jobs!
-   
-   > A really cool side note, Google has an easter egg in their image search which mimics breakout, but with the images in your search query instead of Bricks!
-   
-   Let's take a look at Tom's Pong and breakout, we will notice that they have a lot in common.
-   Both games have a paddle, a ball, and the ball bounces on the sides of screen.
-   The code we just got running is already fairly close to what we're aiming for!
-   
-   ![Game Comparison](/docs/img/game_comparison.png)
-   
-   Your final objective of this lab is to turn Tom's Pong into a primitive version of Breakout.
-   In order to do this, make the following changes to the code.
-   1. Remove the Player 2 (Right paddle).
-   2. Remove the event code for player 2.
-   3. Change the paddle location from the left side of the screen to the bottom of the screen.
-      > __HINT:__ The `Srite.Rect` object has an attribute called `midbottom` that you can use.
-   4. Change the paddle slider to travel the horizontal distance of the screen instead of the vertical distance.
-   5. Change the keyboard input from W/S to A/D or UP/DOWN to LEFT/RIGHT (depending on which side of the keyboard you are using). 
-   6. Ensure that the paddle does not go off screen when moving horizontally.
-   7. Change the image of the paddle to that of a vertical paddle to that of a horizontal paddle.
-      > We have provided default assets in the `img` folder.
-      Once you finish the lab, feel free to modify these images to make the game look prettier.
-      
-> Once you are finished, your game should look similar to the following.
-![Breakout Skeleton](docs/img/breakout_skeleton.png)
-   
-# Submission
-For this lab, you will submit work directly to your lab instructor.
-When you have finished step 4 in Tom's Pong, please call your instructor over and they will ask you some questions based on the tutorial you read earlier.
+## Rubric
 
-Your instructor will mark off a sheet identical to the rubric below. You will be required to initial the submission sheet to claim academic credit for this lab.
-This lab can only be performed in-class, no make up labs will be available without a documented excuse.
+# Lab 11 - Real-Time Programming II
+   
+## Submission
 
-> __NOTE:__ During the last 15 minutes of lab, your instructor may begin grading labs.
-  Make sure that you are working on the higher value items early.
+## Rubric
 
-# Rubric
-Because lab 9 does not follow the normal flow of labs, your grade will be based on a modified rubric.
-> __NOTE:__ The score is out of 100 points, the All indented categories show a specific breakdown to show where all points are coming from.
+# Lab 12 - Binary File I/O
+   
+## Submission
 
-* 25 - Installation of PyGame to your Python environment.
-* 20 - Run Tom's Pong for the first time.
-  > Running the modified code is sufficient, you do not need to show this to your instructor as well.
-* 30 - Modify Tom's Pong into a simple version of Breakout
-  * 6 - Remove one of the game's paddles.
-  * 2 - Remove the keyboard input code for one of the players.
-  * 3 - Change the location of the paddle to the bottom of the screen.
-  * 10 - Get the paddle to slide horizontally instead of vertically.
-  * 4 - Change the keyboard input for the paddle from UP/DOWN to LEFT/RIGHT
-  * 5 - Change the sprite image of the paddle to the horizontal paddle.
-* 25 - Answer 2-3 questions given by your instructor about the code.
-  * 6 - Question 1
-  * 6 - Question 2
-  * 13 - Question 3
+## Rubric
+
+# Lab 13 - Integrations
+   
+## Submission
+
+## Rubric
+
+# Lab 13 - Presentations
+
+The first 30 minutes of this lab will involve taking the "Super" quiz. Which will count for 2 quiz grades (4% of your overall grade).
+
+The remaining 75 minutes will be spent on group presentations.
+Each group will present their project.
+I want to see the following information from each group:
+* Demo of the game (include multiple levels and power-ups if applicable).
+* What challenges did you face during development (from each partner)?
+  How did your team solve these?
+  > __NOTE:__ These can be both in terms of code and disagreements with the team
+* What did you enjoy about the project (from each partner)?
+* What did you learn from the project (from each partner)?
+
+You and your partner must present for no fewer than __4 minutes__ and no longer than __6 minutes__.
+If your presentation is too long or short I will take off 10 points per minute (__yes, I will be timing__).
+> You and your partner should practice presenting before the final lab (At least run through it once)!
+
+If you take longer than 7 minutes, I will likely cut you off (don't make me do this)!
+
+## Submission
+In order to receive a grade for this lab, you must be present in lab to present your Breakout game.
+I will evaluate your presentation in class.
+You are encouraged to submit any supplemental notes or presentations (e.g. A powerpoint), though these are not required.
+
+## Rubric
+* 25 - Live demo of your game.
+* 40 - Discussion about your project (e.g. Challenges, enjoyment, knowledge gained).
+* 35 - Quality of the presentation.
+  * Did you keep on topic?
+  * Did you speak clearly, concisely, and avoid filler (e.g. "Um", "Like")?
+  * Did you have supplemental content (e.g. slides)? (Not necessary, but could help if used correctly).
+    * Keep in mind __PowerPoint != Presentation__, don't make slides unless they improve your presentation.
+
+__Presentation Length?__
+I will take the final score from above and take off points for going under 4 minutes or over 6 minutes.
+For example, a presentation that goes for 6:30 minutes or 3:30 minutes would lose 5 points, while a project that goes for 4:00 minutes exactly or 5:59 minutes would not lose any points.
 
 # Additional Documentation
 

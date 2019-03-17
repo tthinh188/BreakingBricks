@@ -60,16 +60,84 @@ The final project submission will be due during finals week and will give you an
 # Lab 10 - Inheritance
 This lab will be based on utilizing inheritance to help facilitate creating game objects.
 
-Why should we use inheritance?
+__Why should we use inheritance?__
 If you remember from lecture, child objects inherit attributes and functions from their parents.
-In the case of PyGame and game development, a lot of work is required to setup a valid game object.
+In the case of PyGame and game development in general, a lot of work is required to setup a valid game object.
 Fortunately, PyGame comes equipped with the `Sprite` class in the `sprite` module (`pygame.sprite.Sprite`).
-This sprite object allows us to work 
+This sprite object is a template that is already setup to work seamlessly in PyGame.
 
+## Understanding Sprites
+
+All sprites are composed of 2 primary elements, an image (which is what is seen on screen), and a collision field (which is used to determine the bounds of an object).
+By separating these 2 elements, you gain increased control over the physics in the game environment.
+
+The important object to take note of in this relationship is the bounding box, which is a nested class called `pygame.Rect`.
+When you instantiate a new sprite object, you can refer to its bounding box via the `rect` attribute (e.g. `mysprite.rect`).
+This bounding box is the principle method behind moving objects on screen (think about when you moved the paddle to the bottom of the screen in Lab 9).
+There are 2 ways of easily moving sprites, the first is to use the `move` function, and the second is to use the sub-points on the rectangle (more on that later).
+The move function is essentially a setter for the sprite, it takes in a list containing an x and y coordinate and moves the ball to the location specified.
+The location is based on the screen location where the top left corner is the origin and the x-axis increased to the right, and the y-axis increases when going down (Y is inverted from a normal Cartesian coordinate system).
+
+The other method, as described above, is to use the subpoints of the Rect object.
+These points refer to 9 points on the rectangle's perimeter: `topleft`, `bottomleft`, `topright`, `bottomright`, `midtop`, `midleft`, `midbottom`, `midright`, and `center`. 
+All of these points are set with a tuple containing an x and a y position (e.g. `(x, y)`).
+There are also other dimensions which may be used to align the sprite, these include:
+* `x` and `y`, which refers to the top left of the sprite.
+* `top`, `left`, `bottom`, and `right`, which refers to either the x or y of a given side.
+* `centerx` and `centery`, which refer to the x or y of the center of the Sprite.
+> __NOTE:__ These dimensions only require single dimensional data, like an int.
+
+As state earlier, you can also influence the size of the object, via its collision box.
+This can be done by working with the following variables:
+* `size`, which takes in a tuple containing the new width and height
+* `width`, and `height`, which contains the elements individually
+
+I recommend looking through the full __[Documentation](https://www.pygame.org/docs/ref/rect.html)__ for a the `pygame.Rect` object, as there is a lot to explore with this object.
+
+## Creating the Objects
+
+For this lab, we need to focus on 3 objects: a ball, a paddle, and a brick.
+You can use the code from last week as a starting point, however, going forward we will be using this repository.
+You should run the game to test your code and make sure that it is working.
+
+### The Ball
+The ball will bounce around on the sides of the screen, and will be deflected when it hits a Brick.
+It will also be deflected when it hits the paddle.
+Unlike in Tom's Pong, however, the ball will not bounce off of the bottom of the screen, but will fall through the screen.
+The ball should start on top of the paddle, aligned on to the `centerx` of the screen.
+> __NOTE:__ The ball does not need to start out stationary on the paddle or have user input to start, for this lab, having the ball launch from the start is sufficient.
+
+### The Paddle
+The paddle will move across the bottom of the screen to deflect the ball upwards.
+The paddle should start in the bottom, middle of the screen.
+The paddle should not be able to leave the screen.
+That is, `screen.left <= paddle.left` and `paddle.right <= screen.right`.
+
+The paddle should deflect the ball based on where the ball lands on the paddle (See below).
+![Ball Deflection](/docs/img/ball_deflection.png)
+
+### The Brick
+A brick should sit in its designated location and not move.
+A brick should have a health value associated with it.
+When a ball impacts the brick, it should be damaged.
+When a brick's health reaches 0, it should be destroyed (i.e. removed from the screen).
 
 ## Submission
+For this lab, you will present your results to your instructor in the Week 11 Scrum.
+Your instructor will ask additional questions regarding your implementation and other general knowledge.
 
 ## Rubric
+* 40 - Participation
+* 30 - Ball working correctly
+  * 5 - Ball starts out on top of the paddle and is bounced upward.
+  * 5 - Ball is deflected when it hits the paddle (Movement does not need to be perfect).
+  * 20 - Ball is deflected when it hits a brick (Movement does not need to be perfect).
+* 20 - Paddle Working correctly
+  * 5 - Paddle does not leave the bounds of the screen.
+  * 15 - Paddle deflects the ball with an angle based on where the ball hits.
+* 30 - Brick working correctly
+  * 15 - Bricks should have health that is decreased when a ball hits it.
+  * 15 - Bricks should be destroyed when their health reaches 0.
 
 # Lab 11 - Real-Time Programming II
    

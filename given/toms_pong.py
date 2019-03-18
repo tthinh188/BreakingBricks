@@ -77,7 +77,6 @@ class Ball(pygame.sprite.Sprite):
         else:
             # Deflate the rectangles so you can't catch a ball behind the bat
             player1.rect.inflate(-3, -3)
-            player2.rect.inflate(-3, -3)
 
             # Do ball and bat collide?
             # Note I put in an odd rule that sets self.hit to 1 when they collide, and unsets it in the next
@@ -85,9 +84,6 @@ class Ball(pygame.sprite.Sprite):
             # bat, the ball reverses, and is still inside the bat, so bounces around inside.
             # This way, the ball can always escape and bounce away cleanly
             if self.rect.colliderect(player1.rect) == 1 and not self.hit:
-                angle = math.pi - angle
-                self.hit = not self.hit
-            elif self.rect.colliderect(player2.rect) == 1 and not self.hit:
                 angle = math.pi - angle
                 self.hit = not self.hit
             elif self.hit:
@@ -101,13 +97,15 @@ class Paddle(pygame.sprite.Sprite):
     Functions: reinit, update, moveup, movedown
     Attributes: which, speed"""
 
-    def __init__(self, side):
+    X = 0
+    Y = 1
+
+    def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = load_png('vertical_paddle.png')
+        self.image = load_png('paddle.png')
         self.rect = self.image.get_rect()
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
-        self.side = side
         self.speed = 10
         self.state = "still"
         self.reinit()
@@ -115,10 +113,7 @@ class Paddle(pygame.sprite.Sprite):
     def reinit(self):
         self.state = "still"
         self.movepos = [0, 0]
-        if self.side == "left":
-            self.rect.midleft = self.area.midleft
-        elif self.side == "right":
-            self.rect.midright = self.area.midright
+        self.rect.midbottom = self.area.midbottom
 
     def update(self):
         newpos = self.rect.move(self.movepos)
@@ -126,13 +121,13 @@ class Paddle(pygame.sprite.Sprite):
             self.rect = newpos
         pygame.event.pump()
 
-    def moveup(self):
-        self.movepos[1] = self.movepos[1] - self.speed
-        self.state = "moveup"
+    def moveleft(self):
+        self.movepos[Paddle.X] = self.movepos[Paddle.X] - self.speed
+        self.state = "moveleft"
 
-    def movedown(self):
-        self.movepos[1] = self.movepos[1] + self.speed
-        self.state = "movedown"
+    def moveright(self):
+        self.movepos[Paddle.X] = self.movepos[Paddle.X] + self.speed
+        self.state = "moveright"
 
     def still(self):
         self.movepos = [0, 0]
@@ -151,9 +146,7 @@ def main():
 
     # Initialize players
     global player1
-    global player2
-    player1 = Paddle("left")
-    player2 = Paddle("right")
+    player1 = Paddle()
 
     # Initialize ball
     speed = 13
@@ -161,7 +154,7 @@ def main():
     ball = Ball((0.47, speed))
 
     # Initialize sprites
-    playersprites = pygame.sprite.RenderPlain((player1, player2))
+    playersprites = pygame.sprite.RenderPlain(player1)
     ballsprite = pygame.sprite.RenderPlain(ball)
 
     # Blit everything to the screen
@@ -180,23 +173,16 @@ def main():
             if event.type == pygame.QUIT:
                 return
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_w:
-                    player1.moveup()
-                if event.key == pygame.K_s:
-                    player1.movedown()
-                if event.key == pygame.K_UP:
-                    player2.moveup()
-                if event.key == pygame.K_DOWN:
-                    player2.movedown()
+                if event.key == pygame.K_LEFT:
+                    player1.moveleft()
+                if event.key == pygame.K_RIGHT:
+                    player1.moveright()
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_w or event.key == pygame.K_s:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     player1.still()
-                if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                    player2.still()
 
         screen.blit(background, ball.rect, ball.rect)
         screen.blit(background, player1.rect, player1.rect)
-        screen.blit(background, player2.rect, player2.rect)
         ballsprite.update()
         playersprites.update()
         ballsprite.draw(screen)

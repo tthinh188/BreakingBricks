@@ -1,4 +1,7 @@
 # Breakout
+For the second half of the semester, we will be recreating the classic Atari game, Breakout.
+
+![Breakout](/docs/img/breakout.jpg)
 
 ## Purpose
 Labs 10-14 will constitute the remainder of the semester and will involve the development of the classic Atari game Breakout.
@@ -89,6 +92,36 @@ git commit -m "<Message>"
 git push origin master
 ```
 Add, commit, and push the changes to your remote repo (origin).
+
+# Academic Integrity
+Before beginning the project, I want to take the time to remind everyone that the CNU Honor Code applies to this lab course and this project.
+Cheating under any circumstances will not be tolerated, and will result in a grade of a 0 and a report to CHECS.
+
+### Cheating
+This project will be more complex than projects given in the past, and will offer opportunities for students to write very diverse code.
+With this in mind, code between groups should be very different.
+Spotting copied code will be very easy with this project, please do not even attempt to copy code without documenting it.
+
+### Collaboration & Empty Hands
+Understanding this, I want groups to be successful.
+To that end, I understand that sometimes a helping hand is needed.
+You may work with individuals outside of your group, so long as you follow the empty hands policy (see the lab syllabus).
+That is, you discuss ideas and concepts with other, but do not take anything away from the meeting (i.e. If you draw ideas on a whiteboard, the whiteboard should be erased, and you should not have taken notes from it).
+Additionally, I expect all parties involved to cite their collaboration sessions as part of their code.
+If I see similar code, I can excuse it more easily if satisficing documentation is provided. 
+
+### Online Resources
+Breakout is a classic game that many other schools may also use as introductory level projects.
+Due to this, there will undoubtedly be repositories that contain complete or nearly complete solutions.
+Please resist the urge to copy solutions from online.
+You will find great satisfaction in getting your project to work by yourself.
+If you copy from someone else, you will not get the same satisfaction; in essence, you will be cheating yourself out of the reward for coding.
+
+If for some reason find yourself disobeying the above advice, please cite where your got your code from.
+Failure to do so will be considered plagiarism, and will be treated the same as if you copied code from another student in class.
+Please do not take a complete solution from online, I cannot give you credit for it even, if it is cited.
+If you are stuck in a spot and need a nudge in the right direction, you may copy code snippets from online (e.g. GitHub, StackOverflow).
+So long as you cite them, I will only take off a few points per instance.
 
 # Lab 10 - Inheritance
 This lab will be based on utilizing inheritance to help facilitate creating game objects.

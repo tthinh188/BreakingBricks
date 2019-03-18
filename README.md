@@ -60,7 +60,7 @@ All weeks will count the same as a normal lab (100 points).
 The final presentation will also count as a normal lab grade.
 The final project submission will be due during finals week and will give you an opportunity to reclaim points if you've missed some milestones.
 
-# Project Updates
+## Project Updates
 Because this project is subject to change throughout the semester, the instructors may release a manual change from time to time.
 Because we are using git to distribute this project, fetching changes is very simple.
 
@@ -93,7 +93,7 @@ git push origin master
 ```
 Add, commit, and push the changes to your remote repo (origin).
 
-# Academic Integrity
+## Academic Integrity
 Before beginning the project, I want to take the time to remind everyone that the CNU Honor Code applies to this lab course and this project.
 Cheating under any circumstances will not be tolerated, and will result in a grade of a 0 and a report to CHECS.
 

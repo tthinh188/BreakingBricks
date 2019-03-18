@@ -57,6 +57,39 @@ All weeks will count the same as a normal lab (100 points).
 The final presentation will also count as a normal lab grade.
 The final project submission will be due during finals week and will give you an opportunity to reclaim points if you've missed some milestones.
 
+# Project Updates
+Because this project is subject to change throughout the semester, the instructors may release a manual change from time to time.
+Because we are using git to distribute this project, fetching changes is very simple.
+
+```
+git remote -v
+```
+This command will print out your origin and upstream repos.
+Origin is the repository that you push to and upstream is an ancestor repository that you can fetch from.
+```
+git remote add upstream https://gitlab.pcs.cnu.edu/cpsc250-<instructor's last name>-<crn>-s19/cpsc250l-breakout-s19.git
+```
+This command is used to add the original repo as an ancestor repository you can fetch changes from, only run this command if the `git remmote -v` only returns an origin repo.
+
+```
+git fetch --all
+```
+This command will synchronize the repositories by fetching changes between them.
+This effectively pulls the changes from the upstream repo.
+
+```
+git merge upstream/<branch name> --no-commit
+```
+Merges the changes from the ancestor repo.
+The branch name will be given to you when you need to update.
+
+```
+git add --all
+git commit -m "<Message>"
+git push origin master
+```
+Add, commit, and push the changes to your remote repo (origin).
+
 # Lab 10 - Inheritance
 This lab will be based on utilizing inheritance to help facilitate creating game objects.
 
@@ -130,6 +163,7 @@ Your instructor will ask additional questions regarding your implementation and 
 * 40 - Participation
 * 30 - Ball working correctly
   * 5 - Ball starts out on top of the paddle and is bounced upward.
+    > You may also start the ball above the paddle and have it drop down (either implementation is acceptable.)
   * 5 - Ball is deflected when it hits the paddle (Movement does not need to be perfect).
   * 20 - Ball is deflected when it hits a brick (Movement does not need to be perfect).
 * 20 - Paddle Working correctly

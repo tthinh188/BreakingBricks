@@ -84,7 +84,7 @@ class Ball(pygame.sprite.Sprite):
             # bat, the ball reverses, and is still inside the bat, so bounces around inside.
             # This way, the ball can always escape and bounce away cleanly
             if self.rect.colliderect(player1.rect) == 1 and not self.hit:
-                angle = math.pi - angle
+                angle = -angle
                 self.hit = not self.hit
             elif self.hit:
                 self.hit = not self.hit

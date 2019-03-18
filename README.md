@@ -49,7 +49,7 @@ IF YOU AND YOUR PARTNER CHOOSE TO WORK AHEAD, PLEASE WORK TOGETHER, ANY CODE WHI
 * 100 points | Week 10 Milestones (graded on Week 11)
 * 100 points | Week 11 Milestones (graded on Week 12)
 * 100 points | Week 12 Milestones (graded on Week 13)
-* 100 points | Week 13 Milestones (graded on Week 14)
+* 100 points | Week 13 Milestones (graded on Week 14, as part of the presentation)
 * 100 points | Week 14 Presentation
 * 300 points | Final Project Submission (due during finals week [date TBD])
 
@@ -140,24 +140,34 @@ Your instructor will ask additional questions regarding your implementation and 
   * 15 - Bricks should be destroyed when their health reaches 0.
 
 # Lab 11 - Real-Time Programming II
-   
+Now that we have created classes for each of the Breakout objects, it is time to get the game working.
+
 ## Submission
+For this lab, you will present your results to your instructor in the Week 12 Scrum.
+Your instructor will ask additional questions regarding your implementation and other general knowledge.
 
 ## Rubric
+* 40 - Participation
 
 # Lab 12 - Binary File I/O
    
 ## Submission
+For this lab, you will present your results to your instructor in the Week 13 Scrum.
+Your instructor will ask additional questions regarding your implementation and other general knowledge.
 
 ## Rubric
+* 40 - Participation
 
 # Lab 13 - Integrations
    
 ## Submission
+For this lab, you will present your project during Lab 14.
+If you have any addiitonal content other than the game, you will submit this via Scholar in the "Presentations Assignment".
 
 ## Rubric
+* 40 - Participation
 
-# Lab 13 - Presentations
+# Lab 14 - Presentations
 
 The first 30 minutes of this lab will involve taking the "Super" quiz. Which will count for 2 quiz grades (4% of your overall grade).
 
@@ -176,6 +186,9 @@ If your presentation is too long or short I will take off 10 points per minute (
 > You and your partner should practice presenting before the final lab (At least run through it once)!
 
 If you take longer than 7 minutes, I will likely cut you off (don't make me do this)!
+
+> __NOTE:__ If you and your partner do not have a way of presenting, please let me know beforehand so that I can download and load your project for your presentation.
+I will use your most up-to-date GitLab version, make sure that all of your changes are pushed and that you give me the correct repository.
 
 ## Submission
 In order to receive a grade for this lab, you must be present in lab to present your Breakout game.

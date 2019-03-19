@@ -206,8 +206,99 @@ Your instructor will ask additional questions regarding your implementation and 
   * 15 - Bricks should have health that is decreased when a ball hits it.
   * 15 - Bricks should be destroyed when their health reaches 0.
 
-# Lab 11 - Real-Time Programming II
+# Lab 11 - Real-Time Programming II: Game States
 Now that we have created classes for each of the Breakout objects, it is time to get the game working.
+
+## Game States
+One of the most important aspect to creating a real-time project is to give it various __states__.
+These states make up the core of a program and make it a __state machine__.
+Don't worry about the terminology, all a state machine does is model behaviors for a given state and map out the transition to other states.
+
+Let's create a simple model using Breakout.
+Classically, we have 3 primary states: a play state, a pause state, and a game over state.
+During the game state, the behavior of the program should allow it to take user input, process game changes, and display the changes back to the user.
+During the game over state, the game should sit idle and wait for a user to restart the game (classically, this would be an arcade machine waiting for a user to insert enough coins to play).
+During the pause state, the game should sit idle and wait for a user to un-pause the game.
+
+Now that we have defined our states, we need to define our state transitions.
+We should have our game start in the game over state, since it is how the game will have ended previously.
+The Game over state should be what the game loads into upon initialization.
+The game over state is very simple to model: it transitions to the play state when and only when the user gives the input.
+If the game is terminated, the state will not change.
+The play state is a little bit more complex, since it involves multiple branching paths.
+The play state will transition into the pause state when the user pauses the game, and the play state will transition to the game over state when the user runs out of live or the user terminates the game manually.
+Finally, the pause state is very similar to the game over state since it transitions to the play state when a user un-pauses the game.
+
+Before you start writing code, you should first write this out as a state diagram.
+Because your game may be different than the given game, your diagram may differ than what was described above.
+
+## Implementing States
+The obvious follow up questions is __"How do I write this in code?"__
+There are many ways to implement state transitions.
+In a larger project, you would likely use objects to contain various behaviors and change the object pointers to transition states.
+In this project, it will be easier to use boolean states to control the transitions.
+Below is a __pseudocode__ example.
+
+```
+# NOTE: Escape is used to quit the game, space is used to start the game,
+# and return is used to pause
+
+gameover = True
+paused = False
+exitgame = False
+
+while not exitgame:
+    if user_input() == ESC:
+        exitgame = True
+        continue
+
+    # Game Over State
+    if gameover:
+        show_text("Game Over")
+        show_subtext("Press space to play.")
+        if user_input() == SPACE:
+            gameover = False
+            continue
+
+    # Paused State
+    elif paused:
+        show_text("Paused")
+        if user_input() == RETURN:
+            paused = False
+    
+    # Play State
+    else:
+        run_game()
+        
+        if lives <= 0:
+            gameover = True
+            continue
+        
+        if user_input() == RETURN:
+            paused = True
+            continue
+```
+
+## Debugging Movement
+In this lab you will start debugging the motion of the ball, and the collisions on bricks.
+This is one aspect in which you will have a lot of freedom to design your own motion.
+I encourage you to implement ideas outside of the given code to implement movement.
+The only restriction is that your movement should not feel bad to play with, and you should not experience clipping with the paddle and the ball or a brick and the ball.
+
+## Game Statistics
+In addition to the states and movement, you will also start keeping track of the score, lives, and level.
+
+When a user hits a block (or destroys a block, you can choose), the score should be incremented.
+
+When a user destroys the last block in a level, a set of new blocks should appear as part of a new level.
+Your ball should also be reset to its initial position when a level changes.
+Your level should increment upon completion of the last level.
+
+Every time the ball goes off screen, the lives of the player should decrease by 1.
+
+When a user runs out of lives, the game should end.
+When the user starts up the game again, the level should be reset to 1, the score should be set to 0, and the number of lives should be reset to the starting number.
+
 
 ## Submission
 For this lab, you will present your results to your instructor in the Week 12 Scrum.
@@ -215,8 +306,54 @@ Your instructor will ask additional questions regarding your implementation and 
 
 ## Rubric
 * 40 - Participation
+* 20 - Working States in the Game
+* 20 - Deflection of the ball is fluid and fun to play
+* 20 - Game keeps track of score, lives, and level.
 
 # Lab 12 - Binary File I/O
+One way that we will modernize this game is by allowing the user to save.
+When the original Breakout was developed there was no way of saving a game, and once the power was turned off, all scores and progress were lost.
+
+We will use binary file I/O to save and load the game.
+
+The game should be saved whenever a user exits the screen.
+If there is a save file present upon loading the game, the previous game state should be loaded instead of starting a new game.
+If the user runs out of lives during the game, any previous save files should be deleted.
+If the game is loaded into its game over state, no save file should be created.
+
+__Things you will need to keep track of.__
+* Game
+  * Score
+  * Level
+  * Lives
+* Ball
+  * Location
+    * X-Position
+    * Y-Position
+  * Motion
+    * Velocity
+    * Theta
+    * __OR__
+    * X-Velocity
+    * Y-Velocity
+  * State __(Use this for Lab 13)__
+    * Power-Up Status
+      * Power-Up Type
+      * Power-Up Time
+* Paddle
+  * Location
+    * X-Position
+    * Y-Position
+* Bricks __(for each brick)__
+  * Location
+    * X-Position
+    * y-Position
+  * Status
+    * Health
+    * Power-Up Brick __(Use this for lab 13)__
+
+
+
    
 ## Submission
 For this lab, you will present your results to your instructor in the Week 13 Scrum.
@@ -224,15 +361,51 @@ Your instructor will ask additional questions regarding your implementation and 
 
 ## Rubric
 * 40 - Participation
+* 30 - Saving and loading games works
+* 15 - No extraneous files are created
+* 15 - Stale save files are deleted once the game ends
 
-# Lab 13 - Integrations
-   
+# Lab 13 - Integration
+This will be the final lab for this project.
+In this lab you will add to your game to make it stand out and be truly unique.
+
+There are no general guidelines to this lab other than whatever you add should be significant.
+> __NOTE:__ As a rule of thumb, you should put in at least the same level of effort into this lab as the other labs in the project.
+
+For those who may have fallen behind in previous weeks, please use this lab as an opportunity to catch back up and created something you can be proud of.
+
+## Ideas
+* Use File I/O or Binary File I/O to save high scores and the names of the best players. __(Medium)__
+* Add a power up to the game:
+  * Add a damage powerup that destroys all bricks and is not deflected by bricks. __(Medium)__
+  * Add a multi-ball powerup that allows for 3 balls to be present on the screen at once. __(Hard)__
+  * Add a powerup that  temporarily increases the size of the paddle. __(Medium)__
+* Add an acceleration due to gravity which changes how the ball moves. __(Medium)__
+* Add varying coefficients of restitution that change how ball reflects (more or less velocity) __(Medium)__
+* Modify the force that various bricks impart on the ball upon deflection. __(Medium)__
+* Create a requirement that certain bricks must be destroyed before others. __(Hard)__
+* Add sound effects or background music to your game. __(Easy-Hard)__
+* Create new fancier sprites. (Please don’t simply pilfer online assets). __(Easy-Hard)__
+
+## Polishing your Game
+Before your demo and submit your final game, please make sure that the game itself looks and feels good to play.
+Polish is very important on a front-facing product.
+
+Additionally, since I will be checking through your code, please clean up your code and __refactor__ it to be as clean as possible.
+If you need to tips on implementing this, please refer to the lab syllabus.
+
 ## Submission
 For this lab, you will present your project during Lab 14.
 If you have any addiitonal content other than the game, you will submit this via Scholar in the "Presentations Assignment".
 
 ## Rubric
 * 40 - Participation
+* 30 - You game has at lease 1 unique feature (or several smaller features)
+* 20 - Your game has been polished up (i.e. you have decent looking sprites and other assets)
+* 10 - Your game's code was polished before submission.
+
+> __NOTE:__ This last lab is meant as an opportunity to have fun and enjoy the fruits of your labor in the last weeks.
+A lot of the grade is going to be based on effort.
 
 # Lab 14 - Presentations
 
@@ -240,6 +413,8 @@ The first 30 minutes of this lab will involve taking the "Super" quiz. Which wil
 
 The remaining 75 minutes will be spent on group presentations.
 Each group will present their project.
+The purpose of this lab is to gain additional practice presenting and evaluating the presentations of others.
+
 I want to see the following information from each group:
 * Demo of the game (include multiple levels and power-ups if applicable).
 * What challenges did you face during development (from each partner)?
@@ -258,18 +433,18 @@ If you take longer than 7 minutes, I will likely cut you off (don't make me do t
 I will use your most up-to-date GitLab version, make sure that all of your changes are pushed and that you give me the correct repository.
 
 ## Submission
-In order to receive a grade for this lab, you must be present in lab to present your Breakout game.
+In order to receive credit for this lab, you must be present in lab to present your Breakout game.
+You must also be present for the duration of the lab to watch other groups present, only excused absences will be allowed.
 I will evaluate your presentation in class.
-You are encouraged to submit any supplemental notes or presentations (e.g. A powerpoint), though these are not required.
+You should have some supplemental material for your presentation once you have finished demonstrating your game (e.g. slides).
+> Include screenshots from your game, just in case you have issues with your demo.
 
 ## Rubric
 * 25 - Live demo of your game.
 * 40 - Discussion about your project (e.g. Challenges, enjoyment, knowledge gained).
 * 35 - Quality of the presentation.
   * Did you keep on topic?
-  * Did you speak clearly, concisely, and avoid filler (e.g. "Um", "Like")?
-  * Did you have supplemental content (e.g. slides)? (Not necessary, but could help if used correctly).
-    * Keep in mind __PowerPoint != Presentation__, don't make slides unless they improve your presentation.
+  * Did you have supplemental content (e.g. slides)?
 
 __Presentation Length?__
 I will take the final score from above and take off points for going under 4 minutes or over 6 minutes.

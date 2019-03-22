@@ -10,15 +10,15 @@ class Ball(pygame.sprite.Sprite):
     direction = 200  # direction of the ball (in degrees)
 
     def __init__(self, speed):
-        player1 = Paddle()                                 # TP 
+        player1 = Paddle()                                 #
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('../img/ball.png')  # TP fix cannot load image ('img/paddle.png')
+        self.image = pygame.image.load('../img/ball.png')  # fix cannot load image ('img/paddle.png')
         self.rect = self.image.get_rect()
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
         self.speed = speed
         self.hit = 0
-        self.rect.midbottom = player1.rect.midtop          # TP (place the ball on the top of the Paddle)
+        self.rect.midbottom = player1.rect.midtop          # place the ball on the top of the Paddle
 
     def bounce(self, x):
         self.direction = (180- self.direction) % 360
@@ -62,7 +62,7 @@ class Paddle(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('../img/paddle.png')               # TP fix cannot load paddle ('img/paddle.png')
+        self.image = pygame.image.load('../img/paddle.png')               # fix cannot load paddle ('img/paddle.png')
         self.rect = self.image.get_rect()
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
@@ -91,17 +91,17 @@ def main():
     screen = pygame.display.set_mode((1000, 500))
     pygame.display.set_caption("Breakout")
 
-    screen.fill((56, 53, 186)) # <- filled the background screen
-
+    screen.fill((0, 0, 0))               # ((56, 53, 186))  # <- filled the background screen
+                                         # Sorry! The blue screen just look too bright
     ball = Ball(15)
 
-    global player1                                            # TP instance paddle
+    global player1                                            # instance paddle
     player1 = Paddle()
 
-    playersprites = pygame.sprite.RenderPlain(player1)        # TP displace Paddle
+    playersprites = pygame.sprite.RenderPlain(player1)        # displace Paddle
     playersprites.draw(screen)
 
-    ballsprite = pygame.sprite.RenderPlain(ball)              # TP display ball
+    ballsprite = pygame.sprite.RenderPlain(ball)              # display ball
     ballsprite.draw(screen)
 
     game_over = False

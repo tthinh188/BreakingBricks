@@ -10,13 +10,15 @@ class Ball(pygame.sprite.Sprite):
     direction = 200  # direction of the ball (in degrees)
 
     def __init__(self, speed):
+        player1 = Paddle()                                 # TP 
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('../img/ball.png')  # fix cannot load image ('img/paddle.png')
+        self.image = pygame.image.load('../img/ball.png')  # TP fix cannot load image ('img/paddle.png')
         self.rect = self.image.get_rect()
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
         self.speed = speed
         self.hit = 0
+        self.rect.midbottom = player1.rect.midtop          # TP (place the ball on the top of the Paddle)
 
     def bounce(self, x):
         self.direction = (180- self.direction) % 360
@@ -60,7 +62,7 @@ class Paddle(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('../img/paddle.png')               # fix cannot load paddle ('img/paddle.png')
+        self.image = pygame.image.load('../img/paddle.png')               # TP fix cannot load paddle ('img/paddle.png')
         self.rect = self.image.get_rect()
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
@@ -70,7 +72,7 @@ class Paddle(pygame.sprite.Sprite):
 
     def position(self):
         self.state = "still"
-        self.move_position = [0,0]
+        self.move_position = [0, 0]
         self.rect.bottom = self.area.bottom
 
     def update(self):
@@ -93,9 +95,14 @@ def main():
 
     ball = Ball(15)
 
+    global player1                                            # TP instance paddle
     player1 = Paddle()
-    playersprites = pygame.sprite.RenderPlain(player1)        # add Paddle to the screen
+
+    playersprites = pygame.sprite.RenderPlain(player1)        # TP displace Paddle
     playersprites.draw(screen)
+
+    ballsprite = pygame.sprite.RenderPlain(ball)              # TP display ball
+    ballsprite.draw(screen)
 
     game_over = False
 

@@ -11,7 +11,7 @@ class Ball(pygame.sprite.Sprite):
 
     def __init__(self, speed):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('img/ball.png')
+        self.image = pygame.image.load('../img/ball.png')  # fix cannot load image ('img/paddle.png')
         self.rect = self.image.get_rect()
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
@@ -60,7 +60,7 @@ class Paddle(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('img/paddle.png')
+        self.image = pygame.image.load('../img/paddle.png')               # fix cannot load paddle ('img/paddle.png')
         self.rect = self.image.get_rect()
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
@@ -92,6 +92,10 @@ def main():
     screen.fill((56, 53, 186)) # <- filled the background screen
 
     ball = Ball(15)
+
+    player1 = Paddle()
+    playersprites = pygame.sprite.RenderPlain(player1)        # add Paddle to the screen
+    playersprites.draw(screen)
 
     game_over = False
 

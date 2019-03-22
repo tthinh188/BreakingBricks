@@ -1,4 +1,4 @@
-#
+
 # Tom's Pong
 # A simple pong game with realistic physics and AI
 # http://www.tomchance.uklinux.net/projects/pong.shtml
@@ -102,7 +102,7 @@ class Paddle(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = #load_png('paddle.png')
+        self.image = load_png('paddle.png')
         self.rect = self.image.get_rect()
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()

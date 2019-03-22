@@ -1,52 +1,130 @@
-import sys
-import random
-import math
-import os
 import pygame
+import math
 
-black = (0, 0, 0)
-white = (255, 255, 255)
-blue = (0, 0, 255)
+pygame.init()
 
+win = pygame.display.set_mode((1000, 500))
 
+pygame.display.set_caption("Breakout")
 
-def load_png(name):
-    """ Load image and return image object"""
-    fullname = os.path.join('../img', name)
-    try:
-        image = pygame.image.load(fullname)
-        if image.get_alpha is None:
-            image = image.convert()
-        else:
-            image = image.convert_alpha()
-        return image
-    except pygame.error:
-        print('Cannot load image:', fullname)
+x = 50
+y = 50
+width = 40
+height = 60
+vel = 10  #velocity
 
 
-class Ball (pygame.sprite.Sprite):
-    speed = 10.0
+# this is for the paddle
+run = True
+while run:
+    pygame.time.delay(100)
 
-    x = 0.0
-    y = 180.0
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+    keys = pygame.key.get_pressed()
 
-    direction = 200
+    if keys[pygame.K_LEFT] and x > vel:
+        x -= vel
+    if keys[pygame.K_RIGHT] and x < 1000 - width - vel: # second video 3: 56
+        x += vel
 
-    def __init__(self, ball_speed):
-        pygame.sprite.Sprite.__init__(self)
-        self.image =  load_png('ball.png')
-        self.rect = self.image.get_rect()
-        screen = pygame.display.get_surface()
-        self.area = screen.get_rect()
-        self.ball_speed = ball_speed
-        self.hit = False
+    win.fill((0,0,0))
+    pygame.draw.rect(win, (255, 0,0), (x,y,width, height))
+    pygame.display.update()
 
-    def ball_bounce(self, diff):
-        self.direction = (180- self.direction) % 360
-        self.direction -= diff
+# so it would not go off the screen
 
-    def ball_direction(self):
-http: // programarcadegames.com / python_examples / show_file.php?file = breakout_simple.py
+pygame.quit()
+
+
+
+
+# import sys
+# import random
+# import math
+# import os
+# import pygame
+#
+# black = (0, 0, 0)
+# white = (255, 255, 255)
+# blue = (0, 0, 255)
+#
+#
+#
+#
+# def load_png(name):
+#     """ Load image and return image object"""
+#     fullname = os.path.join('../img', name)
+#     try:
+#         image = pygame.image.load(fullname)
+#         if image.get_alpha is None:
+#             image = image.convert()
+#         else:
+#             image = image.convert_alpha()
+#         return image
+#     except pygame.error:
+#         print('Cannot load image:', fullname)
+#
+#
+# class Blocks(pygame.sprite.Sprite):
+#     def __init__(self,color, x,y):
+#         super().__init__()
+#
+#         self.image = pygame.Surface
+#
+# class Ball (pygame.sprite.Sprite):
+#     speed = 10.0
+#
+#     x = 0.0
+#     y = 180.0
+#
+#     direction = 200
+#
+#     def __init__(self, ball_speed):
+#         pygame.sprite.Sprite.__init__(self)
+#         self.image =  load_png('ball.png')
+#         self.rect = self.image.get_rect()
+#         screen = pygame.display.get_surface()
+#         self.area = screen.get_rect()
+#         self.ball_speed = ball_speed
+#         self.hit = False
+#
+#     def ball_bounce(self, diff):
+#         self.direction = (180- self.direction) % 360
+#         self.direction -= diff
+#
+#     def update(self):
+#         direction_radians = math.radians(self.direction)
+#
+#         self.x += self.speed * math.sin(direction_radians)
+#         self.y -= self.speed * math.cos(direction_radians)
+#
+#         self.rect.x = self.x
+#         self.rect.y = self.y
+#
+#     # Do we bounce off the top of the screen?
+#         if self.y <= 0:
+#             self.ball_bounce(0)
+#             self.y = 1
+#
+#         # Do we bounce off the left of the screen?
+#         if self.x <= 0:
+#             self.direction = (360 - self.direction) % 360
+#             self.x = 1
+#
+#         # Do we bounce of the right side of the screen?
+#         if self.x > self.screenwidth - self.width:
+#             self.direction = (360 - self.direction) % 360
+#             self.x = self.screenwidth - self.width - 1
+#
+#         # Did we fall off the bottom edge of the screen?
+#         if self.y > 600:
+#             return True
+#         else:
+#             return False
+# ======================================================================================================================
+# http: // programarcadegames.com / python_examples / show_file.php?file = breakout_simple.py
 
 #
 # import math

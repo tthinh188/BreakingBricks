@@ -22,6 +22,7 @@ class Ball(pygame.sprite.Sprite):
         self.direction = (180- self.direction) % 360
         self.direction -= x
 
+    # Experiment consists of codes from pygames.org #
     def update(self):
         direction_radians = math.radians(self.direction)
 
@@ -52,7 +53,7 @@ class Ball(pygame.sprite.Sprite):
             return True
         else:
             return False
-
+    #  #####################################
 
 class Paddle(pygame.sprite.Sprite):
     x = 0
@@ -71,7 +72,7 @@ class Paddle(pygame.sprite.Sprite):
     def position(self):
         self.state = "still"
         self.move_position = [0,0]
-        self.rect.bottom = self.area.bottom
+        self.rect.midbottom = self.area.bottom
 
     def update(self):
         new_position = self.rect.move(self.move_position)
@@ -80,8 +81,27 @@ class Paddle(pygame.sprite.Sprite):
         pygame.event.pump()
 
 
-class Brick:
-    pass
+class Brick(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.rect.x = x
+        self.rect.y = y
+
+
+class BasicBrick(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__(self)
+        self.basic_brick = pygame.image.load('img/basic_block.png')
+        self.rect = self.basic_brick
+        self.health = 1
+
+
+    def health(self):
+        # if the basic block was hit health will reduced by one and when it reaches zero
+        # it will disappear
+
+
+
 
 def main():
     # initialize the screen of the game

@@ -1,4 +1,3 @@
-
 # Tom's Pong
 # A simple pong game with realistic physics and AI
 # http://www.tomchance.uklinux.net/projects/pong.shtml
@@ -87,13 +86,14 @@ class Ball(pygame.sprite.Sprite):
             if self.rect.colliderect(player1.rect) == 1 and not self.hit:
                 angle = -angle
                 self.hit = not self.hit
-            elif self.rect.colliderect(brick.rect) == 1 and not self.hit:
-                angle = -angle
-                self.hit = not self.hit
-                brick.health -= 1
-                if brick.health == 0:
-                    brick.kill()
-                    brick.rect.right = 0
+            # elif self.rect.colliderect(bricks.rect) == 1 and not self.hit:
+            #     angle = -angle
+            #     self.hit = not self.hit
+            #     brick.health -= 1
+            #     if brick.health == 0:
+            #         brick.kill()
+            #         brick.rect.right = 0
+
             elif self.hit:
                 self.hit = not self.hit
         self.vector = (angle, z)
@@ -141,25 +141,31 @@ class Paddle(pygame.sprite.Sprite):
         self.movepos = [0, 0]
         self.state = "still"
 
+
 class BasicBrick(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load('../img/basic_block.png')
         self.rect = self.image.get_rect()
         screen = pygame.display.get_surface()
-#        self.basic_brick = pygame.image.load('img/basic_block.png')
+        #        self.basic_brick = pygame.image.load('img/basic_block.png')
         self.area = screen.get_rect()
-#        self.rect = self.basic_brick
+        #        self.rect = self.basic_brick
         self.health = 1
-        self.hit = False
+        self.hit = 0
+        self.rect.x = x
+        self.rect.y = y
 
-    def health(self):
-        # if the basic block was hit health will reduced by one and when it reaches zero
-        # it will disappear
-        if self.hit is True:
-            self.health -= 1
-        if self.health == 0:
-            self.alive()
+    def update(self):
+        if self.rect.colliderect(ball.rect) == 1 and not self.hit:
+            self.hit = not self.hit
+            brick.health -= 1
+            if brick.health == 0:
+                self.kill()
+                self.rect.right = 0
+            elif self.hit:
+                self.hit = not self.hit
+
 
 def main():
     # Initialize screen
@@ -172,6 +178,8 @@ def main():
     background = background.convert()
     background.fill((0, 0, 0))
 
+    global bricksprite
+    bricksprite = pygame.sprite.RenderPlain()
     # Initialize players
     global player1
     player1 = Paddle()
@@ -179,20 +187,23 @@ def main():
     # Initialize ball
     speed = 13
     rand = 0.1 * random.randint(5, 8)
+    global ball
     ball = Ball((0.47, speed))
 
-    #initialize bricks
+    # initialize bricks
     global brick
-    brick = BasicBrick()
+
+    for i in range(0, 5):
+        brick = BasicBrick(128 * i, 0)
+        bricksprite.add(brick)
 
     # Initialize sprites
-    bricksprite = pygame.sprite.RenderPlain(brick)
     playersprites = pygame.sprite.RenderPlain(player1)
     ballsprite = pygame.sprite.RenderPlain(ball)
+
     # Blit everything to the screen
     screen.blit(background, (0, 0))
     pygame.display.flip()
-
 
     # Initialize clock
     clock = pygame.time.Clock()
@@ -221,6 +232,7 @@ def main():
         playersprites.update()
         ballsprite.draw(screen)
         playersprites.draw(screen)
+        bricksprite.update()
         bricksprite.draw(screen)
         pygame.display.flip()
 

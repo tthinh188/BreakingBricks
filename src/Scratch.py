@@ -12,7 +12,7 @@ class Ball(pygame.sprite.Sprite):
     def __init__(self, speed):
         player1 = Paddle()                                 #
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('../img/ball.png')  # fix cannot load image ('img/paddle.png')
+        self.image = pygame.image.load('img/paddle.png') # ('../img/ball.png')  # fix cannot load image ('img/paddle.png')
         self.rect = self.image.get_rect()
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
@@ -63,7 +63,7 @@ class Paddle(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('../img/paddle.png')               # fix cannot load paddle ('img/paddle.png')
+        self.image = pygame.image.load('img/paddle.png') #('../img/paddle.png')  # fix cannot load paddle ('img/paddle.png')
         self.rect = self.image.get_rect()
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
@@ -73,13 +73,13 @@ class Paddle(pygame.sprite.Sprite):
 
     def position(self):
         self.state = "still"
-<<<<<<< HEAD
+
         self.move_position = [0,0]
         self.rect.midbottom = self.area.bottom
-=======
+
         self.move_position = [0, 0]
         self.rect.bottom = self.area.bottom
->>>>>>> 1bd3559bcefc403293ce85e5c2c53e7438931bcf
+
 
     def update(self):
         new_position = self.rect.move(self.move_position)
@@ -101,11 +101,16 @@ class BasicBrick(pygame.sprite.Sprite):
         self.basic_brick = pygame.image.load('img/basic_block.png')
         self.rect = self.basic_brick
         self.health = 1
+        self.hit = False
 
 
     def health(self):
         # if the basic block was hit health will reduced by one and when it reaches zero
         # it will disappear
+        if self.hit is True:
+            self.health -= 1
+        if self.health == 0:
+            Ba
 
 
 

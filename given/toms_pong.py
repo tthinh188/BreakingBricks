@@ -58,6 +58,7 @@ class Ball(pygame.sprite.Sprite):
         self.area = screen.get_rect()
         self.vector = vector
         self.hit = 0
+        self.rect.midbottom = player1.rect.midtop
 
     def update(self):
         newpos = calcnewpos(self.rect, self.vector)
@@ -73,6 +74,8 @@ class Ball(pygame.sprite.Sprite):
                 angle = -angle
             if (tl and bl) or (tr and br):
                 angle = math.pi - angle
+#            if bl and br:
+#                angle = 1
 
         else:
             # Deflate the rectangles so you can't catch a ball behind the bat
@@ -84,6 +87,9 @@ class Ball(pygame.sprite.Sprite):
             # bat, the ball reverses, and is still inside the bat, so bounces around inside.
             # This way, the ball can always escape and bounce away cleanly
             if self.rect.colliderect(player1.rect) == 1 and not self.hit:
+                angle = -angle
+                self.hit = not self.hit
+            elif self.rect.colliderect(brick.rect) == 1 and not self.hit:
                 angle = -angle
                 self.hit = not self.hit
             elif self.hit:
@@ -133,6 +139,26 @@ class Paddle(pygame.sprite.Sprite):
         self.movepos = [0, 0]
         self.state = "still"
 
+class BasicBrick(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load('../img/basic_block.png')
+        self.rect = self.image.get_rect()
+        screen = pygame.display.get_surface()
+#        self.basic_brick = pygame.image.load('img/basic_block.png')
+        self.area = screen.get_rect()
+#        self.rect = self.basic_brick
+        self.health = 1
+        self.hit = False
+
+    def health(self):
+        # if the basic block was hit health will reduced by one and when it reaches zero
+        # it will disappear
+        if self.hit is True:
+            self.health -= 1
+        if self.health == 0:
+            self.alive()
+
 def main():
     # Initialize screen
     pygame.init()
@@ -153,13 +179,18 @@ def main():
     rand = 0.1 * random.randint(5, 8)
     ball = Ball((0.47, speed))
 
+    #initialize bricks
+    global brick
+    brick = BasicBrick()
+
     # Initialize sprites
+    bricksprite = pygame.sprite.RenderPlain(brick)
     playersprites = pygame.sprite.RenderPlain(player1)
     ballsprite = pygame.sprite.RenderPlain(ball)
-
     # Blit everything to the screen
     screen.blit(background, (0, 0))
     pygame.display.flip()
+
 
     # Initialize clock
     clock = pygame.time.Clock()
@@ -183,10 +214,12 @@ def main():
 
         screen.blit(background, ball.rect, ball.rect)
         screen.blit(background, player1.rect, player1.rect)
+        screen.blit(background, brick.rect, brick.rect)
         ballsprite.update()
         playersprites.update()
         ballsprite.draw(screen)
         playersprites.draw(screen)
+        bricksprite.draw(screen)
         pygame.display.flip()
 
 

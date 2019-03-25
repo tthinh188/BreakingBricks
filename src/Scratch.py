@@ -4,31 +4,32 @@ import math
 
 
 class Ball(pygame.sprite.Sprite):
-    # location of the ball
+    #location of the ball
     x = 0.0
     y = 180.0
     direction = 200  # direction of the ball (in degrees)
 
     def __init__(self, speed):
-        player1 = Paddle()                                 #
+        player1 = Paddle()  #
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('img/paddle.png') # ('../img/ball.png')  # fix cannot load image ('img/paddle.png')
+        self.image = pygame.image.load(
+            'img/ball.png')  # ('../img/ball.png')  # fix cannot load image ('img/paddle.png')
         self.rect = self.image.get_rect()
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
         self.speed = speed
         self.hit = 0
-        self.rect.midbottom = player1.rect.midtop          # place the ball on the top of the Paddle
+        self.rect.midbottom = player1.rect.midtop  # place the ball on the top of the Paddle
 
     def bounce(self, x):
-        self.direction = (180- self.direction) % 360
+        self.direction = (180 - self.direction) % 360
         self.direction -= x
 
     # Experiment consists of codes from pygames.org #
     def update(self):
         direction_radians = math.radians(self.direction)
 
-        self.x += self.speed  * math.sin(direction_radians)
+        self.x += self.speed * math.sin(direction_radians)
         self.y -= self.speed * math.cos(direction_radians)
 
         # Move the image to where our x and y are
@@ -57,13 +58,15 @@ class Ball(pygame.sprite.Sprite):
             return False
     #  #####################################
 
+
 class Paddle(pygame.sprite.Sprite):
     x = 0
     y = 1
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('img/paddle.png') #('../img/paddle.png')  # fix cannot load paddle ('img/paddle.png')
+        self.image = pygame.image.load(
+            'img/paddle.png')  # ('../img/paddle.png')  # fix cannot load paddle ('img/paddle.png')
         self.rect = self.image.get_rect()
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
@@ -73,13 +76,8 @@ class Paddle(pygame.sprite.Sprite):
 
     def position(self):
         self.state = "still"
-
-        self.move_position = [0,0]
-        self.rect.midbottom = self.area.bottom
-
         self.move_position = [0, 0]
-        self.rect.bottom = self.area.bottom
-
+        self.rect.midbottom = self.area.midbottom
 
     def update(self):
         new_position = self.rect.move(self.move_position)
@@ -87,22 +85,35 @@ class Paddle(pygame.sprite.Sprite):
             self.rect = new_position
         pygame.event.pump()
 
+    def moveleft(self):
+        self.move_position[Paddle.x] = self.move_position[Paddle.x] - self.speed
+        self.state = "moveleft"
 
-class Brick(pygame.sprite.Sprite):
-    def __init__(self, x, y):
-        pygame.sprite.Sprite.__init__(self)
-        self.rect.x = x
-        self.rect.y = y
+    def moveright(self):
+        self.move_position[Paddle.x] = self.move_position[Paddle.x] + self.speed
+        self.state = "moveright"
+
+    def still(self):
+        self.move_position = [0, 0]
+        self.state = "still"
+
+#
+# class Brick(pygame.sprite.Sprite):
+#     def __init__(self):
+#         pygame.sprite.Sprite.__init__(self)
 
 
 class BasicBrick(pygame.sprite.Sprite):
     def __init__(self):
-        super().__init__(self)
-        self.basic_brick = pygame.image.load('img/basic_block.png')
-        self.rect = self.basic_brick
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load('img/basic_block.png')
+        self.rect = self.image.get_rect()
+        screen = pygame.display.get_surface()
+#        self.basic_brick = pygame.image.load('img/basic_block.png')
+        self.area = screen.get_rect()
+#        self.rect = self.basic_brick
         self.health = 1
         self.hit = False
-
 
     def health(self):
         # if the basic block was hit health will reduced by one and when it reaches zero
@@ -110,9 +121,7 @@ class BasicBrick(pygame.sprite.Sprite):
         if self.hit is True:
             self.health -= 1
         if self.health == 0:
-            Ba
-
-
+            self.alive()
 
 
 def main():
@@ -121,18 +130,25 @@ def main():
     screen = pygame.display.set_mode((1000, 500))
     pygame.display.set_caption("Breakout")
 
-    screen.fill((0, 0, 0))               # ((56, 53, 186))  # <- filled the background screen
-                                         # Sorry! The blue screen just look too bright
+    screen.fill((0, 0, 0))  # ((56, 53, 186))  # <- filled the background screen
+    # Sorry! The blue screen just look too bright
     ball = Ball(15)
 
-    global player1                                            # instance paddle
+    global player1  # instance paddle
     player1 = Paddle()
+    brick = BasicBrick()
+    brick2 = BasicBrick()
 
-    playersprites = pygame.sprite.RenderPlain(player1)        # displace Paddle
+    print(screen.get_width)
+
+    playersprites = pygame.sprite.RenderPlain(player1)  # displace Paddle
     playersprites.draw(screen)
 
-    ballsprite = pygame.sprite.RenderPlain(ball)              # display ball
+    ballsprite = pygame.sprite.RenderPlain(ball)  # display ball
     ballsprite.draw(screen)
+
+    bricksprite = pygame.sprite.RenderPlain(brick)
+    bricksprite.draw(screen)
 
     game_over = False
 
@@ -142,7 +158,36 @@ def main():
                 game_over = True
             pygame.display.flip()
             pygame.display.update()
+
+    clock = pygame.time.Clock()
+
+    while True:
+        # Make sure game doesn't run at more than 60 frames per second
+        clock.tick(60)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    player1.moveleft()
+                if event.key == pygame.K_RIGHT:
+                    player1.moveright()
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                    player1.still()
+        # screen.blit(background, ball.rect, ball.rect)
+        # screen.blit(background, player1.rect, player1.rect)
+        # screen.blit(background, brick.rect, brick.rect)
+        ballsprite.update()
+        playersprites.update()
+        ballsprite.draw(screen)
+        playersprites.draw(screen)
+        bricksprite.draw(screen)
+        pygame.display.flip()
+
     pygame.quit()
+
 
 if __name__ == '__main__':
     main()

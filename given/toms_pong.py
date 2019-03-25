@@ -74,8 +74,6 @@ class Ball(pygame.sprite.Sprite):
                 angle = -angle
             if (tl and bl) or (tr and br):
                 angle = math.pi - angle
-#            if bl and br:
-#                angle = 1
 
         else:
             # Deflate the rectangles so you can't catch a ball behind the bat
@@ -92,6 +90,10 @@ class Ball(pygame.sprite.Sprite):
             elif self.rect.colliderect(brick.rect) == 1 and not self.hit:
                 angle = -angle
                 self.hit = not self.hit
+                brick.health -= 1
+                if brick.health == 0:
+                    brick.kill()
+                    brick.rect.right = 0
             elif self.hit:
                 self.hit = not self.hit
         self.vector = (angle, z)

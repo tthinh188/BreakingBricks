@@ -139,7 +139,7 @@ def main():
     brick = BasicBrick()
     brick2 = BasicBrick()
 
-    print(screen.get_width)
+    #print(screen.get_width)
 
     playersprites = pygame.sprite.RenderPlain(player1)  # displace Paddle
     playersprites.draw(screen)
@@ -147,38 +147,32 @@ def main():
     ballsprite = pygame.sprite.RenderPlain(ball)  # display ball
     ballsprite.draw(screen)
 
-    bricksprite = pygame.sprite.RenderPlain(brick)
+    bricksprite = pygame.sprite.RenderPlain(brick)   # display
     bricksprite.draw(screen)
 
-    game_over = False
+    x_change = 0
+    y = 0
 
-    while not game_over:
+    game_loop = True
+
+    while game_loop:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                game_over = True
-            pygame.display.flip()
-            pygame.display.update()
 
-    clock = pygame.time.Clock()
-
-    while True:
-        # Make sure game doesn't run at more than 60 frames per second
-        clock.tick(60)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return
-            elif event.type == pygame.KEYDOWN:
+                game_loop = False
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    player1.moveleft()
-                if event.key == pygame.K_RIGHT:
-                    player1.moveright()
-            elif event.type == pygame.KEYUP:
+                    x_change -= 10
+                elif event.key == pygame.K_RIGHT:
+                    x_change += 10
+            if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                    player1.still()
-        # screen.blit(background, ball.rect, ball.rect)
-        # screen.blit(background, player1.rect, player1.rect)
-        # screen.blit(background, brick.rect, brick.rect)
+                    x_change = 0
+        x += x_change
+
+        screen.blit(screen, ball.rect, ball.rect)
+        screen.blit(screen, player1.rect, player1.rect)
+        screen.blit(screen, brick.rect, brick.rect)
         ballsprite.update()
         playersprites.update()
         ballsprite.draw(screen)
@@ -187,6 +181,44 @@ def main():
         pygame.display.flip()
 
     pygame.quit()
+
+    # game_over = False
+    #
+    # while not game_over:
+    #     for event in pygame.event.get():
+    #         if event.type == pygame.QUIT:
+    #             game_over = True
+    #         pygame.display.flip()
+    #         pygame.display.update()
+    #
+    # clock = pygame.time.Clock()
+    #
+    # while True:
+    #     # Make sure game doesn't run at more than 60 frames per second
+    #     clock.tick(60)
+    #
+    #     for event in pygame.event.get():
+    #         if event.type == pygame.QUIT:
+    #             return
+    #         elif event.type == pygame.KEYDOWN:
+    #             if event.key == pygame.K_LEFT:
+    #                 player1.moveleft()
+    #             if event.key == pygame.K_RIGHT:
+    #                 player1.moveright()
+    #         elif event.type == pygame.KEYUP:
+    #             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+    #                 player1.still()
+    #     # screen.blit(background, ball.rect, ball.rect)
+    #     # screen.blit(background, player1.rect, player1.rect)
+    #     # screen.blit(background, brick.rect, brick.rect)
+    #     ballsprite.update()
+    #     playersprites.update()
+    #     ballsprite.draw(screen)
+    #     playersprites.draw(screen)
+    #     bricksprite.draw(screen)
+    #     pygame.display.flip()
+    #
+    # pygame.quit()
 
 
 if __name__ == '__main__':

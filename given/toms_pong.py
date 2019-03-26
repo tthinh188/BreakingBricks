@@ -1,4 +1,3 @@
-
 # Tom's Pong
 # A simple pong game with realistic physics and AI
 # http://www.tomchance.uklinux.net/projects/pong.shtml
@@ -93,9 +92,9 @@ class Ball(pygame.sprite.Sprite):
             # This way, the ball can always escape and bounce away cleanly
             if self.rect.colliderect(player1.rect) == 1 and not self.hit:
                 if self.rect.centerx > player1.rect.centerx:
-                    angle = angle - math.pi/3
+                    angle = angle - math.pi / 3
                 elif self.rect.centerx < player1.rect.centerx:
-                    angle = angle + math.pi/3
+                    angle = angle + math.pi / 3
 
                 self.hit = not self.hit
             elif self.hit:
@@ -103,9 +102,9 @@ class Ball(pygame.sprite.Sprite):
 
             for brick in bricks:
                 if self.rect.colliderect(brick.rect) == 1:
-                    if brick.rect.bottom > self.rect.centery > brick.rect.top: # -> when the ball hit the brick on the side
-                        angle = math.pi-angle  # ---> the direction of the angle when the deflects back
-                    else:    #  -----> if it hits the top or the bottom
+                    if brick.rect.bottom > self.rect.centery > brick.rect.top:  # -> when the ball hit the brick on the side
+                        angle = math.pi - angle  # ---> the direction of the angle when the deflects back
+                    else:  # -----> if it hits the top or the bottom
                         if angle < 90:
                             angle = 90 - (angle % 90)
                         else:
@@ -115,8 +114,7 @@ class Ball(pygame.sprite.Sprite):
                     #     else:
                     #         angle = angle + math.pi/4
                     brick.health -= 1
-                    if (brick.health == 0):
-                        brick.rect.topleft= (-128,0)  # move it outside
+                    # brick.rect.topleft= (-128,0)  # move it outside
 
         self.vector = (angle, z)
 
@@ -188,7 +186,6 @@ class MediumBrick(pygame.sprite.Sprite):
         self.hit = False
 
 
-
 class HardBrick(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
@@ -196,9 +193,9 @@ class HardBrick(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         screen = pygame.display.get_surface()
         self.rect.topleft = (x, y)
-#        self.basic_brick = pygame.image.load('img/basic_block.png')
+        #        self.basic_brick = pygame.image.load('img/basic_block.png')
         self.area = screen.get_rect()
-#        self.rect = self.basic_brick
+        #        self.rect = self.basic_brick
         self.health = 4
         self.hit = False
 
@@ -231,15 +228,13 @@ def main():
         bricks.append(HardBrick(136 * i, 0))
 
     for i in range(5):
-        bricks.append(MediumBrick(136 * i,68))
+        bricks.append(MediumBrick(136 * i, 68))
 
     for i in range(5):
         bricks.append(BasicBrick(136 * i, 136))
     # bricks.append(BasicBrick(0, 0))
     # bricks.append(BasicBrick(128, 0))
     # # brick = BasicBrick()
-
-
 
     # Initialize sprites
     bricksprite = pygame.sprite.RenderPlain(bricks)
@@ -252,8 +247,6 @@ def main():
 
     # Initialize clock
     clock = pygame.time.Clock()
-
-
 
     # Event loop
     while True:
@@ -272,11 +265,14 @@ def main():
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     player1.still()
 
-
         screen.blit(background, ball.rect, ball.rect)
         screen.blit(background, player1.rect, player1.rect)
         for brick in bricks:
             screen.blit(background, brick.rect, brick.rect)
+        for brick in bricks:
+            if brick.health == 0:
+                bricks.remove(brick)
+                brick.kill()
         ballsprite.update()
         playersprites.update()
         ballsprite.draw(screen)
